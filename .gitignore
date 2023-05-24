@@ -1,0 +1,4 @@
+.next
+.keystone
+dist/
+node_modules/
