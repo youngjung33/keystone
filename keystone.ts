@@ -1,8 +1,6 @@
-
 import { config, list } from '@keystone-6/core';
 import {text, relationship, password, integer, timestamp,image} from '@keystone-6/core/fields';
 import {allowAll} from '@keystone-6/core/access'
-import { graphql } from '@keystone-6/core';
 
 export default config({ 
     db: {
@@ -14,7 +12,12 @@ export default config({
         path: '/api/graphql',
     },
     server:{
-      port:3030
+      port:3000,
+      healthCheck: {
+        path:'/health',
+        data: {status: '통신상태양호'},
+      },
+      cors: {origin:['http://localhost:5500'], credentials:true}
     },
     lists: {
         User: list({
@@ -29,9 +32,6 @@ export default config({
             email : text({validation:{isRequired:true}, isIndexed: 'unique'}),
             nickname : text({validation:{isRequired:true,length:{min:2, max:15,}}, isIndexed: 'unique'}),
             // profilepic : image({storage: 'upload'}),
-        
-            
-            //equipmentRequests: relationship({ ref: 'equipmentRequestInfo.requested_by', many: true }),
           },
           access:allowAll,
         }),
@@ -54,8 +54,6 @@ export default config({
           },
           access:allowAll
         }),
-
-        
         Equipment: list({
           fields: {        
             equipment_name: text({validation:{isRequired:true}, label:'비품이름'}),
@@ -79,13 +77,3 @@ export default config({
         }),
       }
 });
-
-// keystone.prepare({ dev: process.env.NODE_ENV !== 'production' })
-//   .then(async ({ server }) => {
-//     await server.start();
-//     console.log('Keystone server is running!');
-//   })
-//   .catch((error) => {
-//     console.error('Error starting Keystone:', error);
-//     process.exit(1);
-//   });
