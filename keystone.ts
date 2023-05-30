@@ -1,8 +1,16 @@
 import { config, list } from '@keystone-6/core';
 import {text, relationship, password, integer, timestamp,image} from '@keystone-6/core/fields';
+import { statelessSessions } from '@keystone-6/core/session';
 import {allowAll} from '@keystone-6/core/access'
+import {createAuth} from '@keystone-6/auth'
 
-export default config({ 
+const { withAuth } = createAuth({
+  listKey: 'User',
+  identityField: 'email',
+  secretField: 'pw',
+});
+
+export default withAuth( config({ 
     db: {
         provider: 'sqlite',
         url: 'file:./database.sqlite3',
@@ -19,11 +27,14 @@ export default config({
       },
       cors: {origin:['http://localhost:5500'], credentials:true}
     },
+    session:statelessSessions({
+      secret:"dfknqkefnikdnhdfloanfljkdabnfjanheiofaifnwiklofn",
+    }),
     lists: {
         User: list({
           fields: {
             user_id: text({validation:{isRequired:true, length:{min:5, max:15,}}, isIndexed: 'unique',label:'사용자 ID'}),
-            pw : password({validation:{isRequired:true},label:'패스워드'}),
+            pw : password({validation:{isRequired:true, match:{regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,explanation: '대문자, 소문자, 특수문자 필수'}},label:'패스워드'}),
             name : text({validation:{isRequired:true},label:'이름'}),
             contact : text({validation:{isRequired:true}, isIndexed: 'unique' }),
             company : text({validation:{isRequired:true}}),
@@ -76,4 +87,5 @@ export default config({
           access: allowAll,
         }),
       }
-});
+})
+);

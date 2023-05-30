@@ -358,6 +358,19 @@ type Mutation {
   updateEquipmentRequestItems(data: [EquipmentRequestItemUpdateArgs!]!): [EquipmentRequestItem]
   deleteEquipmentRequestItem(where: EquipmentRequestItemWhereUniqueInput!): EquipmentRequestItem
   deleteEquipmentRequestItems(where: [EquipmentRequestItemWhereUniqueInput!]!): [EquipmentRequestItem]
+  endSession: Boolean!
+  authenticateUserWithPassword(email: String!, pw: String!): UserAuthenticationWithPasswordResult
+}
+
+union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordSuccess | UserAuthenticationWithPasswordFailure
+
+type UserAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: User!
+}
+
+type UserAuthenticationWithPasswordFailure {
+  message: String!
 }
 
 type Query {
@@ -374,7 +387,10 @@ type Query {
   equipmentRequestItem(where: EquipmentRequestItemWhereUniqueInput!): EquipmentRequestItem
   equipmentRequestItemsCount(where: EquipmentRequestItemWhereInput! = {}): Int
   keystone: KeystoneMeta!
+  authenticatedItem: AuthenticatedItem
 }
+
+union AuthenticatedItem = User
 
 type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!
