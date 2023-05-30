@@ -20,7 +20,9 @@ export default withAuth( config({
         path: '/api/graphql',
     },
     server:{
+      // host:'ec2-43-201-95-217.ap-northeast-2.compute.amazonaws.com',
       port:3000,
+      // port:process.env.PORT || 8080,
       healthCheck: {
         path:'/health',
         data: {status: '통신상태양호'},

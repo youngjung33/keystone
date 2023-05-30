@@ -11,6 +11,7 @@ const keystone = config({
     db: {
       provider: 'sqlite',
       url: databaseUrl,
+      port:process.env.PORT || 8080,
   },
   lists:{
     User:list({
@@ -56,6 +57,10 @@ app.get('/users', async (req, res) => {
     }
   });
   
-app.listen(3000, () => {
-  console.log('Express 앱이 3000번 포트에서 실행 중입니다.');
-});
+  const server = app.listen(process.env.PORT || 8080, () => {
+    const address = server.address();
+    console.log(`Express 앱이 ${address.address}:${address.port}에서 실행 중입니다.`);
+  });
+// app.listen(8080, () => {
+//   console.log('Express 앱이 8080번 포트에서 실행 중입니다.');
+// });
