@@ -2,7 +2,9 @@
 
   "scripts": {
 
-    "dev": "keystone dev"
+    "dev": "keystone dev",
+    "start": "keystone start",
+    "build": "keystone build"
 
   },
 
