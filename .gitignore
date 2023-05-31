@@ -2,5 +2,3 @@
 .keystone
 dist/
 node_modules/
-workflows/
-.github
