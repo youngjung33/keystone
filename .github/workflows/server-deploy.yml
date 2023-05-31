@@ -20,7 +20,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to Server
-        uses: appleboy/scp-action@master
+        uses: appleboy/rsync-action@master
         with:
           host: 43.201.95.217  # 본인의 서버 IP 주소로 대체해야 합니다.
           username: ec2-user  # 본인의 서버 사용자명으로 대체해야 합니다.
