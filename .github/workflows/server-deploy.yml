@@ -17,7 +17,7 @@ jobs:
         run: npm install 
 
       - name: Build
-        run: npm run dev
+        run: node restapits.ts
 
       - name: Deploy to Server
         uses: appleboy/scp-action@master
