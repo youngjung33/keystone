@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>유튜브 URL 자동 메타 데이터 추출</title>
+</head>
+<body>
+  <h1>유튜브 URL 자동 메타 데이터 추출</h1>
+  <input type="text" id="youtubeUrlInput" placeholder="유튜브 URL 입력">
+  <button id="extractButton">추출</button>
+
+  <div id="metadataContainer" style="display: none;">
+    <h2>메타 데이터</h2>
+    <div id="thumbnail"></div>
+    <div id="title"></div>
+    <div id="description"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const input = document.getElementById("youtubeUrlInput");
+    const extractButton = document.getElementById("extractButton");
+    const metadataContainer = document.getElementById("metadataContainer");
+    const thumbnailContainer = document.getElementById("thumbnail");
+    const titleContainer = document.getElementById("title");
+    const descriptionContainer = document.getElementById("description");
+
+    extractButton.addEventListener("click", () => {
+      const youtubeUrl = input.value;
+
+      // YouTube URL에서 비디오 ID 추출
+      const videoId = getVideoIdFromUrl(youtubeUrl);
+
+      // Open Graph URL 생성
+      const openGraphUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+
+      // Open Graph 데이터 가져오기
+      axios.get(openGraphUrl)
+        .then(response => {
+          const metadata = response.data;
+
+          // 가져온 메타 데이터를 화면에 표시
+          thumbnailContainer.innerHTML = `<img src="${metadata.thumbnail_url}" alt="Video Thumbnail">`;
+          titleContainer.innerText = metadata.title;
+
+          // 화면에 메타 데이터 컨테이너 표시
+          metadataContainer.style.display = "block";
+        })
+        .catch(error => {
+          console.error("Error fetching metadata:", error);
+        });
+    });
+
+    // YouTube URL에서 비디오 ID 추출하는 함수
+    function getVideoIdFromUrl(url) {
+      const regex = /[?&]v=([^&#]*)/i;
+      const match = url.match(regex);
+      return match && match[1] ? match[1] : "";
+    }
+  </script>
+</body>
+</html>

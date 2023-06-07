@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Client</title>
+</head>
+<body>
+  <input type="text" id="messageInput" placeholder="메시지를 입력하세요" />
+  <button id="sendButton">전송</button>
+
+  <ul id="messageList"></ul>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:5000/websocket');
+
+    socket.addEventListener('open', () => {
+      console.log('서버에 연결되었습니다.');
+    });
+
+    socket.addEventListener('message', event => {
+      const messageList = document.getElementById('messageList');
+      const messageItem = document.createElement('li');
+      messageItem.textContent = event.data;
+      messageList.appendChild(messageItem);
+    });
+
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+
+    sendButton.addEventListener('click', () => {
+      const message = messageInput.value;
+      socket.send(message);
+      messageInput.value = '';
+    });
+  </script>
+</body>
+</html>

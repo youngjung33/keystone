@@ -25,7 +25,7 @@ export default withAuth( config({
       // port:process.env.PORT || 8080,
       healthCheck: {
         path:'/health',
-        data: {status: '통신상태양호'},
+        data: {status: '통신상태양호',timestamp:Date.now()},
       },
       cors: {origin:['http://localhost:5500'], credentials:true}
     },

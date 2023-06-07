@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>링크 자동 완성</title>
+  <style>
+    .autocomplete {
+      position: relative;
+      display: inline-block;
+    }
+    .autocomplete-input {
+      width: 200px;
+      padding: 5px;
+    }
+    .autocomplete-list {
+      position: absolute;
+      z-index: 1;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 5px;
+    }
+    .autocomplete-list-item {
+      padding: 5px;
+      cursor: pointer;
+    }
+    .autocomplete-list-item:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>링크 자동 완성</h1>
+  <div class="autocomplete">
+    <input type="text" id="linkInput" class="autocomplete-input">
+    <div id="linkList" class="autocomplete-list"></div>
+  </div>
+  <button id="saveButton">링크 저장</button>
+
+  <script>
+    // 예시로 사용할 링크들
+    const links = [
+      "https://www.example.com",
+      "https://www.google.com",
+      "https://www.openai.com",
+      "https://www.github.com",
+      "https://www.youtube.com",
+      
+    ];
+
+    const input = document.getElementById("linkInput");
+    const list = document.getElementById("linkList");
+    const saveButton = document.getElementById("saveButton");
+    let selectedLink = "";
+
+    // 자동 완성 함수
+    function autocomplete() {
+      const inputValue = input.value;
+
+      // 이전에 생성된 항목 제거
+      list.innerHTML = "";
+
+      // 입력된 값과 링크들을 비교하여 일치하는 항목을 드롭다운 목록으로 생성
+      const matchingLinks = links.filter(link => link.includes(inputValue));
+      matchingLinks.forEach(link => {
+        const listItem = document.createElement("div");
+        listItem.classList.add("autocomplete-list-item");
+        listItem.textContent = link;
+        listItem.addEventListener("click", () => {
+          input.value = link;
+          list.innerHTML = "";
+          selectedLink = link;
+        });
+        list.appendChild(listItem);
+      });
+
+      if (matchingLinks.length > 0) {
+        list.style.display = "block";
+      } else {
+        list.style.display = "none";
+      }
+    }
+
+    input.addEventListener("input", autocomplete);
+
+    // 클릭 이벤트가 발생한 위치가 자동 완성 영역 안인지 확인하여 처리
+    document.addEventListener("click", (event) => {
+      const targetElement = event.target;
+      if (!list.contains(targetElement)) {
+        list.style.display = "none";
+      }
+    });
+
+    // 링크 저장 버튼 클릭 시 선택한 링크를 저장
+    saveButton.addEventListener("click", () => {
+      if (selectedLink !== "") {
+        // 이 부분을 원하는 로직으로 수정하여 링크를 저장하거나 처리할 수 있습니다.
+        console.log("링크 저장:", selectedLink);
+        alert("링크가 저장되었습니다: " + selectedLink);
+        input.value = "";
+        selectedLink = "";
+      }
+    });
+  </script>
+</body>
+</html>

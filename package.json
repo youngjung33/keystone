@@ -3,7 +3,9 @@
   "scripts": {
 
     "dev": "keystone dev",
+
     "start": "keystone start",
+
     "build": "keystone build"
 
   },
@@ -22,7 +24,9 @@
 
     "sqlite3": "^5.1.6",
 
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+
+    "ws": "^8.13.0"
 
   }
 
