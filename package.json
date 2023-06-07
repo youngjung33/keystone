@@ -16,14 +16,6 @@
 
     "@keystone-6/core": "^5.2.0",
 
-    "@keystone-next/fields": "^15.0.0",
-
-    "@keystone-next/fields-legacy": "^25.0.0",
-
-    "sequelize": "^6.31.1",
-
-    "sqlite3": "^5.1.6",
-
     "typescript": "^5.0.4",
 
     "ws": "^8.13.0"
