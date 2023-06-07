@@ -10,7 +10,8 @@
   <ul id="messageList"></ul>
 
   <script>
-    const socket = new WebSocket('ws://localhost:5000/websocket');
+    // const socket = new WebSocket('ws://localhost:5000/websocket');
+    const socket = new WebSocket('ws://ec2-43-201-95-217.ap-northeast-2.compute.amazonaws.com/websocket');
 
     socket.addEventListener('open', () => {
       console.log('서버에 연결되었습니다.');

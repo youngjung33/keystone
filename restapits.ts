@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require("cors")
 const { config, list } = require('@keystone-6/core');
 const { text } = require('@keystone-6/core/fields');
 const { PrismaClient } = require('@prisma/client');
@@ -29,7 +30,7 @@ const keystone = config({
 });
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 const httpServer = app.listen(4000, () => {
