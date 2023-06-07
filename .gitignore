@@ -2,3 +2,4 @@
 .keystone
 dist/
 node_modules/
+.github
